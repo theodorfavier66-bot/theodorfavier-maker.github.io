@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <title>SERRUTECH | 66</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --accent: #ffffff;
-      --glass: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.15);
+      --accent-yellow: #ffde59;
+      --dark-bg: #0f0f0f;
+      --glass: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -28,54 +29,56 @@
     .bg-image {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: url('fond.png') no-repeat center center;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('fond.png') no-repeat center center;
       background-size: cover;
-      opacity: 0.55;
       z-index: -1;
     }
 
     .container {
       width: 100%;
-      max-width: 950px;
-      background: rgba(10, 10, 12, 0.8);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      max-width: 1000px;
+      background: rgba(15, 15, 15, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 45px;
+      border-radius: 12px;
+      padding: 50px;
       display: flex;
-      gap: 40px;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      gap: 50px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.9);
     }
 
     .left-panel { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     
     .logo-main {
-      width: 240px;
+      width: 220px;
       filter: brightness(0) invert(1);
-      margin-bottom: 8px;
+      margin-bottom: 15px;
     }
 
     .tagline {
       font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      letter-spacing: 6px;
+      font-size: 11px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      opacity: 0.5;
-      margin-bottom: 35px;
+      color: var(--accent-yellow);
+      margin-bottom: 40px;
+      font-weight: 700;
     }
 
-    .nav-links { display: flex; flex-direction: column; gap: 14px; }
+    .nav-links { display: flex; flex-direction: column; gap: 12px; }
 
     .btn {
-      padding: 18px 22px;
+      padding: 16px 20px;
       background: var(--glass);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 4px;
       color: white;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       cursor: pointer;
       transition: 0.3s;
       display: flex;
@@ -83,71 +86,68 @@
       align-items: center;
     }
 
-    .btn:active { transform: scale(0.97); }
-    .btn-call { background: #fff !important; color: #000 !important; }
+    .btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-yellow); }
+    
+    .btn-call { 
+      background: var(--accent-yellow) !important; 
+      color: #000 !important; 
+      border: none !important;
+      font-weight: 800;
+    }
 
-    /* PANNEAU DROIT - AJUSTÉ POUR LE CENTRAGE */
     .right-panel {
-      flex: 1.2;
-      border-left: 1px solid var(--border);
-      padding-left: 40px;
+      flex: 1.3;
+      border-left: 2px solid var(--accent-yellow);
+      padding-left: 50px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center; /* Centre horizontalement le contenu */
-      text-align: center;   /* Centre le texte */
-      min-height: 320px;
+      text-align: left;
     }
 
-    .info-box { width: 100%; display: none; animation: fadeIn 0.4s forwards; }
+    .info-box { width: 100%; display: none; animation: fadeIn 0.5s forwards; }
     .info-box.active { display: block; }
 
     .info-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 24px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 42px;
+      line-height: 1.1;
       margin-bottom: 20px;
-      letter-spacing: 1px;
-      width: 100%;
+      color: white;
     }
 
+    .info-title span { color: var(--accent-yellow); }
+
     .info-desc { 
-      font-size: 16px; 
-      line-height: 1.8; 
-      opacity: 0.8; 
+      font-size: 15px; 
+      line-height: 1.6; 
+      opacity: 0.7; 
       margin-bottom: 35px;
-      max-width: 400px; /* Évite que le texte soit trop large sur PC */
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .cta-main {
       display: inline-block;
-      padding: 16px 35px;
-      background: #fff;
+      padding: 18px 40px;
+      background: var(--accent-yellow);
       color: #000;
-      border-radius: 14px;
-      font-weight: 900;
+      border-radius: 4px;
+      font-weight: 800;
       text-decoration: none;
       text-transform: uppercase;
-      cursor: pointer;
-      min-width: 200px;
+      font-size: 14px;
+      transition: 0.3s;
+      text-align: center;
     }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .cta-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 222, 89, 0.2); }
 
-    /* VERSION MOBILE */
-    @media (max-width: 768px) {
-      body { overflow-y: auto; align-items: flex-start; }
-      .container { flex-direction: column; padding: 35px 20px; margin-top: 20px; }
-      .right-panel { 
-        border-left: none; 
-        border-top: 1px solid var(--border); 
-        padding: 30px 0 0 0; 
-        min-height: auto;
-        align-items: center;
-      }
-      .left-panel { text-align: center; }
-      .logo-main { margin: 0 auto; width: 200px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+    @media (max-width: 850px) {
+      .container { flex-direction: column; padding: 40px 25px; gap: 30px; }
+      .right-panel { border-left: none; border-top: 2px solid var(--accent-yellow); padding: 30px 0 0 0; }
+      .info-title { font-size: 32px; }
     }
   </style>
 </head>
@@ -159,34 +159,34 @@
     <div class="left-panel">
       <div>
         <img src="logo-texte.png" class="logo-main" alt="Serrutech">
-        <p class="tagline">Artisan Serrurier</p>
+        <p class="tagline">Solutions de Serrurerie 24/7</p>
       </div>
       
       <div class="nav-links">
-        <div class="btn btn-call" onclick="makeCall()">Appeler maintenant <span>📞</span></div>
-        <div class="btn" onclick="openTab('vcard')">Enregistrer le contact <span>👤</span></div>
-        <div class="btn" onclick="openTab('site')">Notre Site Web <span>🌐</span></div>
-        <a href="https://instagram.com/serrutech" target="_blank" class="btn">Instagram <span>📸</span></a>
+        <div class="btn btn-call" onclick="makeCall()">Appeler <span>📞</span></div>
+        <div class="btn" onclick="openTab('vcard')">Contact <span>👤</span></div>
+        <div class="btn" onclick="openTab('site')">Site Web <span>🌐</span></div>
+        <a href="https://instagram.com/serrutech.fr" target="_blank" class="btn">Instagram <span>📸</span></a>
       </div>
     </div>
 
     <div class="right-panel">
       <div id="call" class="info-box active">
-        <h2 class="info-title">URGENCE 66</h2>
-        <p class="info-desc">Serrurier qualifié pour tous vos besoins : ouverture de porte, changement de cylindre et mise en sécurité après effraction.</p>
-        <a href="tel:+33782795833" class="cta-main">Appeler 24h/7</a>
+        <h2 class="info-title">Expertise en <span>Serrurerie</span> de Confiance.</h2>
+        <p class="info-desc">Dépannage d'urgence à Perpignan et dans le 66. Ouverture de porte, blindage et remplacement de serrures toutes marques.</p>
+        <a href="tel:+33782795833" class="cta-main">Obtenir un devis</a>
       </div>
 
       <div id="vcard" class="info-box">
-        <h2 class="info-title">MON TÉLÉPHONE</h2>
-        <p class="info-desc">Gardez nos coordonnées en sécurité. Appuyez sur le bouton pour m'ajouter à votre liste de contacts.</p>
-        <div class="cta-main" onclick="downloadVCard()">M'enregistrer</div>
+        <h2 class="info-title">Restons <span>Connectés</span>.</h2>
+        <p class="info-desc">Enregistrez mes coordonnées directement sur votre mobile pour toute intervention future.</p>
+        <div class="cta-main" onclick="downloadVCard()">Ajouter au répertoire</div>
       </div>
 
       <div id="site" class="info-box">
-        <h2 class="info-title">SITE WEB</h2>
-        <p class="info-desc">Notre nouvelle page est en préparation. Pour toute demande, merci de nous contacter par téléphone.</p>
-        <div class="cta-main" onclick="makeCall()">Contact Direct</div>
+        <h2 class="info-title">Site <span>Internet</span> Officiel.</h2>
+        <p class="info-desc">Découvrez l'ensemble de nos services de mise en sécurité et nos réalisations sur notre plateforme web.</p>
+        <a href="https://serrutech.github.io" class="cta-main">Explorer le site</a>
       </div>
     </div>
   </div>
