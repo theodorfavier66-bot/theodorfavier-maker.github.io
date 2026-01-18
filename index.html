@@ -1,229 +1,121 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>SERRUTECH | 66</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --accent: #ffffff;
-      --glass: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.15);
-    }
+<script>
+(() => {
+  // ✅ CONFIG
+  const PHONE = "+33782795833";
+  const EMAIL = "theodor.favier@icloud.com";
+  const URL = "https://serrutech.github.io";
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
-    body {
-      min-height: 100vh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      color: white;
-      padding: 20px;
-    }
+  // ✅ Helpers
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const $  = (sel, root = document) => root.querySelector(sel);
 
-    .bg-image {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: url('fond.png') no-repeat center center;
-      background-size: cover;
-      opacity: 0.55;
-      z-index: -1;
-    }
+  // ✅ Force background not to block clicks (iOS safety)
+  const bg = $(".bg-image");
+  if (bg) bg.style.pointerEvents = "none";
 
-    .container {
-      width: 100%;
-      max-width: 950px;
-      background: rgba(10, 10, 12, 0.8);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 45px;
-      display: flex;
-      gap: 40px;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
-    }
+  // ✅ Tabs: show panel + set active button
+  function openTab(id) {
+    $$(".info-box").forEach(b => b.classList.remove("active"));
+    const panel = document.getElementById(id);
+    if (panel) panel.classList.add("active");
 
-    .left-panel { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    
-    .logo-main {
-      width: 240px;
-      filter: brightness(0) invert(1);
-      margin-bottom: 8px;
-    }
+    // highlight the clicked nav button (yellow)
+    $$(".nav-links .btn").forEach(b => b.classList.remove("active"));
+    const btn = $(`.nav-links .btn[data-tab="${id}"]`);
+    if (btn) btn.classList.add("active");
+  }
 
-    .tagline {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      opacity: 0.5;
-      margin-bottom: 35px;
-    }
+  // ✅ Make call
+  function makeCall() {
+    openTab("call");
+    // iOS: use direct navigation
+    window.location.href = `tel:${PHONE}`;
+  }
 
-    .nav-links { display: flex; flex-direction: column; gap: 14px; }
+  // ✅ Download vCard (VCF)
+  function downloadVCard() {
+    const vcf = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N:SERRUTECH;;;;",
+      "FN:SERRUTECH 66",
+      "ORG:SERRUTECH",
+      `TEL;TYPE=CELL:${PHONE}`,
+      `EMAIL:${EMAIL}`,
+      `URL:${URL}`,
+      "END:VCARD"
+    ].join("\n");
 
-    .btn {
-      padding: 18px 22px;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+    const fileUrl = URL.createObjectURL(blob);
 
-    .btn:active { transform: scale(0.97); }
-    .btn-call { background: #fff !important; color: #000 !important; }
+    const a = document.createElement("a");
+    a.href = fileUrl;
+    a.download = "SERRUTECH-66.vcf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 
-    /* PANNEAU DROIT - AJUSTÉ POUR LE CENTRAGE */
-    .right-panel {
-      flex: 1.2;
-      border-left: 1px solid var(--border);
-      padding-left: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center; /* Centre horizontalement le contenu */
-      text-align: center;   /* Centre le texte */
-      min-height: 320px;
-    }
+    setTimeout(() => URL.revokeObjectURL(fileUrl), 1000);
+  }
 
-    .info-box { width: 100%; display: none; animation: fadeIn 0.4s forwards; }
-    .info-box.active { display: block; }
+  // ✅ Visual feedback: make button yellow on click (works for <div>, <a>, <button>)
+  function flashActive(el) {
+    if (!el) return;
+    el.classList.add("active");
+    // remove after short delay so it doesn't stay yellow forever unless it's the selected tab
+    setTimeout(() => {
+      // if it's the selected tab button, keep it
+      const tab = el.getAttribute("data-tab");
+      if (!tab) el.classList.remove("active");
+    }, 250);
+  }
 
-    .info-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 24px;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-      width: 100%;
-    }
+  // ✅ Bind NAV buttons (TOP 4)
+  // IMPORTANT: add data-action or data-tab on your buttons
+  // - Appeler: data-action="call"
+  // - Vcard: data-tab="vcard"
+  // - Site: data-tab="site"
+  // Instagram is a real <a href> => no need
 
-    .info-desc { 
-      font-size: 16px; 
-      line-height: 1.8; 
-      opacity: 0.8; 
-      margin-bottom: 35px;
-      max-width: 400px; /* Évite que le texte soit trop large sur PC */
-      margin-left: auto;
-      margin-right: auto;
-    }
+  $$(".nav-links .btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      // if it's a real link (instagram), let it work
+      const isLink = btn.tagName.toLowerCase() === "a" && btn.getAttribute("href");
+      if (!isLink) e.preventDefault();
 
-    .cta-main {
-      display: inline-block;
-      padding: 16px 35px;
-      background: #fff;
-      color: #000;
-      border-radius: 14px;
-      font-weight: 900;
-      text-decoration: none;
-      text-transform: uppercase;
-      cursor: pointer;
-      min-width: 200px;
-    }
+      flashActive(btn);
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      const action = btn.getAttribute("data-action");
+      const tab = btn.getAttribute("data-tab");
 
-    /* VERSION MOBILE */
-    @media (max-width: 768px) {
-      body { overflow-y: auto; align-items: flex-start; }
-      .container { flex-direction: column; padding: 35px 20px; margin-top: 20px; }
-      .right-panel { 
-        border-left: none; 
-        border-top: 1px solid var(--border); 
-        padding: 30px 0 0 0; 
-        min-height: auto;
-        align-items: center;
-      }
-      .left-panel { text-align: center; }
-      .logo-main { margin: 0 auto; width: 200px; }
-    }
-  </style>
-</head>
-<body>
+      if (action === "call") return makeCall();
+      if (tab) return openTab(tab);
+    }, { passive: false });
+  });
 
-  <div class="bg-image"></div>
+  // ✅ Bind CTA buttons inside panels
+  // If your CTA are <div class="cta-main">, we bind by data-action.
+  $$(".cta-main, .cta").forEach(cta => {
+    cta.addEventListener("click", (e) => {
+      const action = cta.getAttribute("data-action");
+      if (!action) return;
 
-  <div class="container">
-    <div class="left-panel">
-      <div>
-        <img src="logo-texte.png" class="logo-main" alt="Serrutech">
-        <p class="tagline">Artisan Serrurier</p>
-      </div>
-      
-      <div class="nav-links">
-        <div class="btn btn-call" onclick="makeCall()">Appeler maintenant <span>📞</span></div>
-        <div class="btn" onclick="openTab('vcard')">Enregistrer le contact <span>👤</span></div>
-        <div class="btn" onclick="openTab('site')">Notre Site Web <span>🌐</span></div>
-        <a href="https://instagram.com/serrutech" target="_blank" class="btn">Instagram <span>📸</span></a>
-      </div>
-    </div>
+      e.preventDefault();
+      flashActive(cta);
 
-    <div class="right-panel">
-      <div id="call" class="info-box active">
-        <h2 class="info-title">URGENCE 66</h2>
-        <p class="info-desc">Serrurier qualifié pour tous vos besoins : ouverture de porte, changement de cylindre et mise en sécurité après effraction.</p>
-        <a href="tel:+33782795833" class="cta-main">Appeler 24h/7</a>
-      </div>
+      if (action === "call") return makeCall();
+      if (action === "vcard") return downloadVCard();
+      if (action === "site")  return (window.location.href = URL);
+    }, { passive: false });
+  });
 
-      <div id="vcard" class="info-box">
-        <h2 class="info-title">MON TÉLÉPHONE</h2>
-        <p class="info-desc">Gardez nos coordonnées en sécurité. Appuyez sur le bouton pour m'ajouter à votre liste de contacts.</p>
-        <div class="cta-main" onclick="downloadVCard()">M'enregistrer</div>
-      </div>
+  // ✅ Fallback: if old onclick still exists, expose functions (so it doesn't break)
+  window.openTab = openTab;
+  window.makeCall = makeCall;
+  window.downloadVCard = downloadVCard;
 
-      <div id="site" class="info-box">
-        <h2 class="info-title">SITE WEB</h2>
-        <p class="info-desc">Notre nouvelle page est en préparation. Pour toute demande, merci de nous contacter par téléphone.</p>
-        <div class="cta-main" onclick="makeCall()">Contact Direct</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openTab(id) {
-      document.querySelectorAll('.info-box').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
-    function makeCall() {
-      openTab('call');
-      window.location.href = "tel:+33782795833";
-    }
-
-    function downloadVCard() {
-      const vcardData = [
-        "BEGIN:VCARD",
-        "VERSION:3.0",
-        "FN:SERRUTECH 66",
-        "TEL;TYPE=CELL,VOICE:+33782795833",
-        "EMAIL:theodor.favier@icloud.com",
-        "URL:https://serrutech.github.io",
-        "END:VCARD"
-      ].join("\n");
-      
-      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'Serrutech_66.vcf');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
-
-</body>
-</html>
+  // ✅ Default view
+  openTab("call");
+})();
+</script>
