@@ -1,156 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>SERRUTECH | 66</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --accent: #ffffff;
-      --glass: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.15);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
-    body {
-      min-height: 100vh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      color: white;
-      padding: 20px;
-    }
-
-    .bg-image {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: url('fond.png') no-repeat center center;
-      background-size: cover;
-      opacity: 0.55;
-      z-index: -1;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 950px;
-      background: rgba(10, 10, 12, 0.8);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 45px;
-      display: flex;
-      gap: 40px;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
-    }
-
-    .left-panel { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    
-    .logo-main {
-      width: 240px;
-      filter: brightness(0) invert(1);
-      margin-bottom: 8px;
-    }
-
-    .tagline {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      opacity: 0.5;
-      margin-bottom: 35px;
-    }
-
-    .nav-links { display: flex; flex-direction: column; gap: 14px; }
-
-    .btn {
-      padding: 18px 22px;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .btn:active { transform: scale(0.97); }
-    .btn-call { background: #fff !important; color: #000 !important; }
-
-    /* PANNEAU DROIT - AJUSTÉ POUR LE CENTRAGE */
-    .right-panel {
-      flex: 1.2;
-      border-left: 1px solid var(--border);
-      padding-left: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center; /* Centre horizontalement le contenu */
-      text-align: center;   /* Centre le texte */
-      min-height: 320px;
-    }
-
-    .info-box { width: 100%; display: none; animation: fadeIn 0.4s forwards; }
-    .info-box.active { display: block; }
-
-    .info-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 24px;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-      width: 100%;
-    }
-
-    .info-desc { 
-      font-size: 16px; 
-      line-height: 1.8; 
-      opacity: 0.8; 
-      margin-bottom: 35px;
-      max-width: 400px; /* Évite que le texte soit trop large sur PC */
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-main {
-      display: inline-block;
-      padding: 16px 35px;
-      background: #fff;
-      color: #000;
-      border-radius: 14px;
-      font-weight: 900;
-      text-decoration: none;
-      text-transform: uppercase;
-      cursor: pointer;
-      min-width: 200px;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* VERSION MOBILE */
-    @media (max-width: 768px) {
-      body { overflow-y: auto; align-items: flex-start; }
-      .container { flex-direction: column; padding: 35px 20px; margin-top: 20px; }
-      .right-panel { 
-        border-left: none; 
-        border-top: 1px solid var(--border); 
-        padding: 30px 0 0 0; 
-        min-height: auto;
-        align-items: center;
-      }
-      .left-panel { text-align: center; }
-      .logo-main { margin: 0 auto; width: 200px; }
-    }
-  </style>
-</head>
 <body>
 
   <div class="bg-image"></div>
@@ -166,7 +13,7 @@
         <div class="btn btn-call" onclick="makeCall()">Appeler maintenant <span>📞</span></div>
         <div class="btn" onclick="openTab('vcard')">Enregistrer le contact <span>👤</span></div>
         <div class="btn" onclick="openTab('site')">Notre Site Web <span>🌐</span></div>
-        <a href="https://instagram.com/serrutech" target="_blank" class="btn">Instagram <span>📸</span></a>
+        <a href="https://instagram.com/serrutech.fr" target="_blank" class="btn">Instagram <span>📸</span></a>
       </div>
     </div>
 
@@ -186,7 +33,7 @@
       <div id="site" class="info-box">
         <h2 class="info-title">SITE WEB</h2>
         <p class="info-desc">Notre nouvelle page est en préparation. Pour toute demande, merci de nous contacter par téléphone.</p>
-        <div class="cta-main" onclick="makeCall()">Contact Direct</div>
+        <a href="https://serrutech.github.io" class="cta-main">Visiter le site</a>
       </div>
     </div>
   </div>
@@ -226,4 +73,3 @@
   </script>
 
 </body>
-</html>
